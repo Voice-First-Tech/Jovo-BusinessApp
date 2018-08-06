@@ -1,170 +1,44 @@
-[![Jovo Framework](https://www.jovo.tech/img/github-logo.png)](https://www.jovo.tech)
 
-<p align="center">Sample Voice App for the <a href="https://github.com/jovotech/jovo-framework-nodejs">Jovo Framework</a> ⭐️</p>
+# Business Assistant
+## Let Google and Alexa welcome customers to your business
 
-<p align="center">
-<a href="https://www.jovo.tech/framework/docs/"><strong>Documentation</strong></a> -
-<a href="https://github.com/jovotech/jovo-cli"><strong>CLI </strong></a> - <a href="https://github.com/jovotech/jovo-templates"><strong>Templates </strong></a> -<a href="https://github.com/jovotech/jovo-framework-nodejs/blob/master/CONTRIBUTING.md"><strong>Contributing</strong></a> - <a href="https://twitter.com/jovotech"><strong>Twitter</strong></a></p>
-<br/>
+Business Assistant is a an assistant for the Amazon Alexa and Google Actions platforms with which *the developer* (and people included in their Beta test) can interact with your business.
 
-# Sample Voice App for Jovo
+###### Why would anyone need such an assistant?
 
-```javascript
-app.setHandler({
-    'LAUNCH': function() {
-        this.toIntent('HelloWorldIntent');
-    },
+Most businesses have a website where customers go to learn more, buy products, and send feedback. Voice apps present the opportunity for customers to engage with your business in a new, creative, way.
+My motivation for developing this is that I have no really convenient way of demoing our expertise to our customers. I have a website, but, I want to easily give customers my business card and give them an easy way to contact my business without having to navigate to my website. The disadvantage is customers are much less familiar with businesses with voice apps and much more familiar with websites.
 
-    'HelloWorldIntent': function() {
-        this.ask('Hello World! What is your name?', 'Please tell me your name.');
-    },
+###### But this assistant has downsides, too, right?
 
-    'MyNameIsIntent': function(name) {
-        this.tell('Hey ' + name + ', nice to meet you!');
-    },
-});
-```
+Yes, a lot, but they are not very painful to me. Potential disadvantages are:
+- You need internet access to use the assistant
+- In all honesty, you need to have basic dev skills with Alexa and AWS
 
-[Jovo](https://www.jovo.tech "Jovo's website") is a development framework for cross-platform voice apps. Use this repository as a starting point to create a voice application for Amazon Alexa and Google Assistant.
+###### Alright, I might give it a try. What do I need to get this running?
 
-> 🚀 Join our newsletter for free courses on voice app development: www.jovo.tech/newsletter 
+You will need:
+- This repository and its dependencies
+- It it extremely convenient to run it locally using the Jovo CLI
+- The basics for Alexa Skill development (Alexa Dev account, an AWS Lambda function to run this code on)
+- The basics for Google Action development (Dialogflow & Google Actions account, an AWS Lambda function with AWS API Gateway to run this code on)
+- Logo images to include in your business card
 
-## Table of Contents
+You should be able to get this running locally by cloning the repository, installing the dependencies, and then running `jovo run` in the main folder.
 
-* [Getting Started](#getting-started)
-* [Tutorials](#tutorials)
-* [How to Contribute](#how-to-contribute)
+###### And how does it work?
 
+Meh, there's no rocket science involved. Just look at the code! :)
 
-## Getting Started
+###### Oh-kay... At least tell us how to config all of this
 
-In this guide, you will learn how to create a "Hello World" voice app for both Amazon Alexa and Google Assistant.
+Alright. There is really no configuration besides updating the values in `app/app.js` to match your business.
 
-### Install the Jovo CLI
+###### Wait! I have so many more questions about this...
 
-The [Jovo CLI](https://github.com/jovotech/jovo-cli) is the best way to get started with Jovo development:
+Sure, feel free to ask, really! I think I will expand upon this project and its documentation later.
 
-```sh
-$ npm install -g jovo-cli
-```
+Looking forward to your Twitter DM, email or issue! :)
 
-To learn more, please find the [Getting Started Guide](https://www.jovo.tech/framework/docs/installation) in the Jovo Framework Docs.
-
-### Create a new Project
-
-```sh
-$ jovo new <directory>
-```
-
-This will clone the Jovo Sample Voice App into a new directory with a name specified by you.
-
-### Configure your App
-
-You can configure the app and add to its logic in the `app` folder, where you can find a file [`app.js`](./app/app.js), which looks like this:
-
-```javascript
-'use strict';
-
-// =================================================================================
-// App Configuration
-// =================================================================================
-
-const {App} = require('jovo-framework');
-
-const config = {
-    logging: true,
-};
-
-const app = new App(config);
-
-
-// =================================================================================
-// App Logic
-// =================================================================================
-
-app.setHandler({
-    'LAUNCH': function() {
-        this.toIntent('HelloWorldIntent');
-    },
-
-    'HelloWorldIntent': function() {
-        this.ask('Hello World! What is your name?', 'Please tell me your name.');
-    },
-
-    'MyNameIsIntent': function(name) {
-        this.tell('Hey ' + name + ', nice to meet you!');
-    },
-});
-
-module.exports.app = app;
-```
-
-### Configure the Language Model
-
-You can change the language model in the `/models`folder and can use the [Jovo CLI](https://github.com/jovotech/jovo-cli) to build platform specific language models into a new `/platforms` folder, and then deploy the language model to the platforms.
-
-For example, you can do it like so:
-
-```sh
-# Initialize a Platform (alexaSkill or googleAction)
-$ jovo init alexaSkill
-
-# Build platform specific language model into /platforms
-$ jovo build
-
-# Deploy language model
-$ jovo deploy
-```
-
-There is also a super fast way to do everything at once:
-
-```sh
-# Long version
-$ jovo new <directory> --build alexaSkill --deploy
-
-# Short version
-$ jovo new <directory> -b alexaSkill -d
-```
-
-To find other ways to deploy the language model, please take a look at the tutorials:
-
-* [Build an Alexa Skill with Jovo](https://www.jovo.tech/blog/alexa-skill-tutorial-nodejs/)
-* [Build a Google Action with Jovo](https://www.jovo.tech/blog/google-action-tutorial-nodejs/)
-
-
-
-### Run the Code
-
-The [`index.js`](./index.js) file is responsible for the server configuration.
-
-You can run this template in two ways:
-* Webhook ([docs](https://www.jovo.tech/framework/docs/server/webhook)): Do `$ jovo run` and use a tool like [ngrok](https://www.ngrok.com) to point to the local webhook
-* AWS Lambda ([docs](https://www.jovo.tech/framework/docs/server/aws-lambda)): Zip the folder and upload there
-
-The file looks like this:
-
-```javascript
-'use strict';
-
-const {Webhook} = require('jovo-framework');
-const {app} = require('./app/app.js');
-
-// =================================================================================
-// Server Configuration
-// =================================================================================
-
-if (app.isWebhook()) {
-    const port = process.env.PORT || 3000;
-    Webhook.listen(port, () => {
-        console.log(`Example server listening on port ${port}!`);
-    });
-    Webhook.post('/webhook', (req, res) => {
-        app.handleWebhook(req, res);
-    });
-}
-
-exports.handler = (event, context, callback) => {
-    app.handleLambda(event, context, callback);
-};
-
-```# Jovo-BusinessApp
+Twitter: @VoiceFirstTech1
+Email: support@voicefirsttech.com

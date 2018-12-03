@@ -34,6 +34,14 @@ app.setHandler({
                 .addText(Strings.launchReprompt);
             this.ask(speech, reprompt);
         },
+
+        'YesIntent': function() {
+          let speech = this.speechBuilder()
+              .addText(Strings.WELCOME_STATE.YESINTENTRESPONSE);
+          let reprompt = this.speechBuilder()
+              .addText(Strings.WELCOME_STATE.YESINTENTREPROMPT);
+          this.ask(speech, reprompt);
+        }
     },
 
     'BusinessCardIntent': function() {

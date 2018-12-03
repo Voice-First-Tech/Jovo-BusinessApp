@@ -11,7 +11,7 @@ for (let rb of getPlatformRequestBuilder('AlexaSkill', 'GoogleActionDialogFlowV2
     it('shows business card', () => {
       return send(rb.launch())
         .then((res) => {
-            const matchedResponse = res.isAsk('Welcome to Voice First Tech. <break time=\"300ms\"/> Do you want to see our business card, get an estimate for your Voice App, or learn more?', 'Do you want to see our business card, get an estimate for your Voice App, or learn more?');
+            const matchedResponse = res.isAsk(Strings.launchResponse, Strings.launchReprompt);
             expect(matchedResponse).to.equal(true);
             return send(rb.intent('BusinessCardIntent'));
         })
@@ -30,7 +30,7 @@ for (let rb of getPlatformRequestBuilder('AlexaSkill', 'GoogleActionDialogFlowV2
     it('tells customers about business', () => {
       return send(rb.launch())
         .then((res) => {
-            const matchedResponse = res.isAsk('Welcome to Voice First Tech. <break time=\"300ms\"/> Do you want to see our business card, get an estimate for your Voice App, or learn more?', 'Do you want to see our business card, get an estimate for your Voice App, or learn more?');
+            const matchedResponse = res.isAsk(Strings.launchResponse, Strings.launchReprompt);
             expect(matchedResponse).to.equal(true);
             return send(rb.intent('LearnMoreIntent'));
         })

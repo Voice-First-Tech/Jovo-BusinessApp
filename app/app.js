@@ -32,7 +32,7 @@ app.setHandler({
                 .addText(Strings.launchResponse);
             let reprompt = this.speechBuilder()
                 .addText(Strings.launchReprompt);
-            this.ask(speech, reprompt);
+            this.followUpState("WelcomeState").ask(speech, reprompt);
         },
 
         'YesIntent': function() {

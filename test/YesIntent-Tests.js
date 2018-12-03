@@ -6,7 +6,7 @@ const {Strings} = require('../config/strings');
 
 for (let rb of getPlatformRequestBuilder('AlexaSkill', 'GoogleActionDialogFlowV2')) {
 
-  describe('YesIntentTestGroup', () => {
+  describe('YesIntentTestGroup' + "-" + rb.type(), () => {
     // YesIntent
     it('gives users more information about Voice First', () => {
       return send(rb.intent('YesIntent').setState("WelcomeState").setSessionNew(true))
@@ -17,14 +17,14 @@ for (let rb of getPlatformRequestBuilder('AlexaSkill', 'GoogleActionDialogFlowV2
     });
     // Launch -> WelcomeIntent
     it('gives users more information about Voice First AFTER LAUNCH', () => {
-      return send(rb.launch())
+      return send(rb.launch().setSessionNew(true))
         .then((res) => {
             const matchedResponse = res.isAsk(Strings.launchResponse, Strings.launchReprompt);
             expect(matchedResponse).to.equal(true);
-            return send(rb.intent('WelcomeIntent').setState("WelcomeState"))
+            return send(rb.intent('YesIntent').setState("WelcomeState"))
         })
         .then((res) => {
-            const matchedResponse = res.isAsk(Strings.launchResponse, Strings.launchReprompt);
+            const matchedResponse = res.isAsk(Strings.WELCOME_STATE.YESINTENTRESPONSE, Strings.WELCOME_STATE.YESINTENTREPROMPT);
             expect(matchedResponse).to.equal(true);
         })
     });

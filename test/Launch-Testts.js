@@ -16,7 +16,7 @@ for (let rb of getPlatformRequestBuilder('AlexaSkill', 'GoogleActionDialogFlowV2
             return send(rb.intent('WelcomeIntent').setState("WelcomeState"))
         })
         .then((res) => {
-            const matchedResponse = res.isAsk('Welcome to Voice First Tech. <break time=\"300ms\"/> Do you want to see our business card, get an estimate for your Voice App, or learn more?', 'Do you want to see our business card, get an estimate for your Voice App, or learn more?');
+            const matchedResponse = res.isAsk(Strings.launchResponse, Strings.launchReprompt);
             expect(matchedResponse).to.equal(true);
         })
     });

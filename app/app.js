@@ -8,6 +8,7 @@
 const {App} = require('jovo-framework');
 const {GoogleAction} = require('jovo-framework');
 const {AlexaSkill} = require('jovo-framework');
+const {Strings} = require('../config/strings');
 
 const config = {
     logging: true,
@@ -28,11 +29,9 @@ app.setHandler({
     'WelcomeState' :{
         'WelcomeIntent': function() {
             let speech = this.speechBuilder()
-                .addText("Welcome to Voice First Tech.")
-                .addBreak('300ms')
-                .addText("Do you want to see our business card, get an estimate for your Voice App, or learn more?");
+                .addText(Strings.launchResponse);
             let reprompt = this.speechBuilder()
-                .addText("Do you want to see our business card, get an estimate for your Voice App, or learn more?");
+                .addText(Strings.launchReprompt);
             this.ask(speech, reprompt);
         },
     },

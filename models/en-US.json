@@ -10,21 +10,47 @@
 			]
 		},
 		{
-			"name": "MyNameIsIntent",
+			"name": "BusinessCardIntent",
 			"phrases": [
-				"{name}",
-				"my name is {name}",
-				"i am {name}",
-				"you can call me {name}"
-			],
-			"inputs": [
-				{
-					"name": "name",
-					"type": {
-						"alexa": "AMAZON.US_FIRST_NAME",
-						"dialogflow": "@sys.given-name"
-					}
-				}
+					"their business card",
+					 "for their business card",
+					 "a business card",
+					 "for a business card",
+					 "contact info",
+					 "contact information",
+					 "email",
+					 "phone number",
+					 "phone",
+					 "card",
+					 "business card"
+			]
+		},
+		{
+			"name": "QuoteIntent",
+			"phrases": [
+					"work with Voice First Tech",
+					"work with us",
+					"voice app pricing",
+					"I would like to build a voice app",
+					"give me a quote",
+					"pricing",
+					"estimate",
+					"quote"
+			]
+		},
+		{
+			"name": "LearnMoreIntent",
+			"phrases": [
+					"their mission",
+					"mission",
+					"for their mission",
+					"tell me more about the company",
+					"can you tell me more about Voice First Tech",
+					"I want to learn more",
+					"more learning",
+					"educate",
+					"learn",
+					"learn more"
 			]
 		}
 	],

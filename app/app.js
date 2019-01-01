@@ -8,6 +8,7 @@
 const {App} = require('jovo-framework');
 const {GoogleAction} = require('jovo-framework');
 const {AlexaSkill} = require('jovo-framework');
+const {Strings} = require('../config/strings');
 
 const config = {
     logging: true,
@@ -28,13 +29,26 @@ app.setHandler({
     'WelcomeState' :{
         'WelcomeIntent': function() {
             let speech = this.speechBuilder()
-                .addText("Welcome to Voice First Tech.")
-                .addBreak('300ms')
-                .addText("Do you want to see our business card, get an estimate for your Voice App, or learn more?");
+                .addText(Strings.launchResponse);
             let reprompt = this.speechBuilder()
-                .addText("Do you want to see our business card, get an estimate for your Voice App, or learn more?");
-            this.ask(speech, reprompt);
+                .addText(Strings.launchReprompt);
+            // Visual card for Amazon Alexa and Google Assistant
+            let title = 'Voice First';
+            let content = 'say, "business card" to see our contact info';
+            let imageUrl = 'https://s3.amazonaws.com/voice-first-business-app/logo.png';
+            this.googleAction().showSuggestionChips(['Business Card', 'Learn More', 'Price Quote', 'Help']);
+
+            this.showImageCard(title, content, imageUrl)
+                .ask(speech, reprompt);
         },
+
+        'YesIntent': function() {
+          let speech = this.speechBuilder()
+              .addText(Strings.WELCOME_STATE.YESINTENTRESPONSE);
+          let reprompt = this.speechBuilder()
+              .addText(Strings.WELCOME_STATE.YESINTENTREPROMPT);
+          this.ask(speech, reprompt);
+        }
     },
 
     'BusinessCardIntent': function() {
@@ -48,7 +62,7 @@ app.setHandler({
             this.alexaSkill().showCard(
                 new AlexaSkill.StandardCard()
                     .setTitle('Voice First Tech')
-                    .setText('Office#: 513-850-5805')
+                    .setText('Office#: 513-850-5895')
                     .setSmallImageUrl('https://odesk-prod-portraits.s3.amazonaws.com/Companies:5209706:CompanyLogoURL?AWSAccessKeyId=AKIAIKIUKM3HBSWUGCNQ&Expires=2147483647&Signature=C1yx2OBhlD3LErBSbQpMrZbX2iE%3D')
                     .setLargeImageUrl('https://odesk-prod-portraits.s3.amazonaws.com/Companies:5209706:CompanyLogoURL?AWSAccessKeyId=AKIAIKIUKM3HBSWUGCNQ&Expires=2147483647&Signature=C1yx2OBhlD3LErBSbQpMrZbX2iE%3D')
             );
@@ -56,10 +70,10 @@ app.setHandler({
         } else {
             let basicCard = new GoogleAction.BasicCard()
                 .setTitle("Voice First Tech")
-                .setFormattedText("Office#: 555-555-5555")
+                .setFormattedText("Office#: 513-850-5895")
                 .setImage("https://odesk-prod-portraits.s3.amazonaws.com/Companies:5209706:CompanyLogoURL?AWSAccessKeyId=AKIAIKIUKM3HBSWUGCNQ&Expires=2147483647&Signature=C1yx2OBhlD3LErBSbQpMrZbX2iE%3D", 'Business Card', '350', '150')
                 .addButton('Voice First Tech website', 'https://www.VoiceFirstTech.com/')
-
+            this.googleAction().showSuggestionChips(['Business Card', 'Learn More', 'Price Quote', 'Help']);
             this.googleAction().showBasicCard(basicCard).ask(speech, reprompt);
         }
     },
@@ -76,7 +90,13 @@ app.setHandler({
             .addText("Do you want to see our business card, or get an estimate for your Voice App?");
         let reprompt = this.speechBuilder()
             .addText("Do you want to see our business card, or get an estimate for your Voice App?")
-        this.ask( speech, reprompt );
+        // Visual card for Amazon Alexa and Google Assistant
+        let title = 'Voice First';
+        let content = 'say, "business card" to see our contact info';
+        let imageUrl = 'https://s3.amazonaws.com/voice-first-business-app/logo.png';
+        this.googleAction().showSuggestionChips(['Business Card', 'Learn More', 'Price Quote', 'Help']);
+        this.showImageCard(title, content, imageUrl)
+            .ask(speech, reprompt);
     },
 
     'Unhandled': function() {
@@ -84,6 +104,7 @@ app.setHandler({
             .addText("I did not catch that.")
             .addBreak('300ms')
             .addText("You can say, show me your business card to see how to contact us.")
+        this.googleAction().showSuggestionChips(['Business Card', 'Learn More', 'Price Quote', 'Help']);
         this.ask(speech);
     },
 
@@ -94,7 +115,17 @@ app.setHandler({
             .addBreak('300ms')
             .addText("This feature will be completed soon!")
             .addText("In the meantime, do you want to see our business card, or learn more about Voice First Tech?")
-        this.ask(speech);
+        let reprompt = this.speechBuilder()
+            .addText("Do you want to see our business card, or learn more about Voice First Tech?")
+        // Visual card for Amazon Alexa and Google Assistant
+        let title = 'Pricing Buddy - Coming Soon';
+        let content = 'Quote coming soon! Get pricing to have Voice First build your voice app for Amazon Alexa and Google Assistant';
+        let imageUrl = 'https://s3.amazonaws.com/voice-first-business-app/logo.png';
+        this.googleAction().showLinkOutSuggestion('Voice First', 'https://www.voicefirsttech.com/');
+        this.googleAction().showSuggestionChips(['Business Card', 'Learn More', 'Help']);
+
+        this.showImageCard(title, content, imageUrl)
+            .ask(speech, reprompt);
       }
     }
 });
